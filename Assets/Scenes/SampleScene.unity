@@ -609,13 +609,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 657634697}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -14.16, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!114 &657634703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -894,7 +894,7 @@ Camera:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -918,7 +918,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 10
   orthographic: 1
   orthographic size: 10
   m_Depth: -1
@@ -1592,6 +1592,9 @@ MonoBehaviour:
   DistanceBetweenPipes: 10
   PipeSpeed: 6
   m_Bird: {fileID: 657634703}
+  detectPoint: {fileID: 177272455285984579, guid: 5c65dc0f1ab7b9f42be11c3751a3121d, type: 3}
+  topPipe: {fileID: 6973935017932537753, guid: bcc6bdbf8af4bd24a86c3b4c34efbee2, type: 3}
+  bottomPipe: {fileID: 6747195817868723778, guid: 02cb723f957baf24d99af6c72f699f43, type: 3}
   StartGameButton: {fileID: 6548251365726985927}
 --- !u!224 &33731692934135786
 RectTransform:

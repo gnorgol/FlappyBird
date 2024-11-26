@@ -37,7 +37,7 @@ public class Bird : MonoBehaviour
             GetComponent<Rigidbody>().isKinematic = false;
         }
         //if space key is pressed
-        if (Input.GetKeyDown("space") && CanJump)
+        if (Input.GetKeyDown("space") || Input.GetMouseButtonDown(0) && CanJump)
         {
             jump();
         }

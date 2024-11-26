@@ -29,6 +29,10 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Bird m_Bird;
     public static GameManager instance;
+    public GameObject detectPoint;
+    public GameObject topPipe;
+    public GameObject bottomPipe;
+
 
     private int BackgroundHeight;
 
@@ -70,15 +74,16 @@ public class GameManager : MonoBehaviour
             topPipe.transform.position = new Vector3(0 + i * DistanceBetweenPipes, BackgroundHeight / 2 - TopPipeHeight/2, 0);
             bottomPipe.transform.position = new Vector3(0 + i * DistanceBetweenPipes, -BackgroundHeight / 2 + BottomPipeHeight / 2, 0);
             //Add beetwen the two pipes a invisible cube to detect if the bird pass the pipes and gain a point
-            GameObject detectPoint = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            detectPoint = GameObject.Instantiate(detectPoint);
+            detectPoint.name = "DetectPoint";
             //Set the detectPoint position between the two pipes
             detectPoint.transform.position = new Vector3(0 + i * DistanceBetweenPipes, topPipe.transform.position.y - TopPipeHeight / 2 - sizeDoor / 2, 0);
             //Set the detectPoint scale to the size of the door
             detectPoint.transform.localScale = new Vector3(1, sizeDoor, 1);
+
             //Set the detectPoint to be trigger
             detectPoint.GetComponent<BoxCollider>().isTrigger = true;
-            //Add the script DetectPoint to the detectPoint
-            detectPoint.AddComponent<DetectPoint>();
+
             //Set the detectPoint to be child of the topPipe
             detectPoint.transform.parent = topPipe.transform;
             //remove mesh renderer from the detectPoint
@@ -93,7 +98,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (isBirdExitingArena() && !IsGameOver)
+        if (isBirdExitingArena() && !IsGameOver && m_GameState == GameState.Playing)
         {
             GameOver();
         }
@@ -119,7 +124,9 @@ public class GameManager : MonoBehaviour
                 m_Pipes.Add(topPipe);
                 m_Pipes.Add(bottomPipe);
                 //Add beetwen the two pipes a invisible cube to detect if the bird pass the pipes and gain a point
-                GameObject detectPoint = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                detectPoint = GameObject.Instantiate(detectPoint);
+
+
                 //Set the detectPoint position between the two pipes
                 detectPoint.transform.position = new Vector3(m_Pipes[m_Pipes.Count - 1].transform.position.x, topPipe.transform.position.y - TopPipeHeight / 2 - sizeDoor / 2, 0);
                 //Set the detectPoint scale to the size of the door
@@ -127,7 +134,7 @@ public class GameManager : MonoBehaviour
                 //Set the detectPoint to be trigger
                 detectPoint.GetComponent<BoxCollider>().isTrigger = true;
                 //Add the script DetectPoint to the detectPoint
-                detectPoint.AddComponent<DetectPoint>();
+
                 //Set the detectPoint to be child of the topPipe
                 detectPoint.transform.parent = topPipe.transform;
                 //remove mesh renderer from the detectPoint
@@ -140,22 +147,22 @@ public class GameManager : MonoBehaviour
 
     public (GameObject, GameObject) CreatePipe(int BackgroundHeight)
     {
-        GameObject topPipe = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        GameObject bottomPipe = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        topPipe.name = "TopPipe";
+        GameObject topPipeClone = GameObject.Instantiate(topPipe);
+        bottomPipe = GameObject.Instantiate(bottomPipe);
+        topPipeClone.name = "TopPipe";
         bottomPipe.name = "BottomPipe";
-        topPipe.tag = "Pipe";
+        topPipeClone.tag = "Pipe";
         bottomPipe.tag = "Pipe";
         //Add green material to the pipes
-        topPipe.GetComponent<Renderer>().material.color = Color.green;
+        topPipeClone.GetComponent<Renderer>().material.color = Color.green;
         bottomPipe.GetComponent<Renderer>().material.color = Color.green;
         int randomTopOrBootom = Random.Range(0, 2);
-        topPipe.transform.position = new Vector3(BackgroundHeight / 2, 0, 0);
+        topPipeClone.transform.position = new Vector3(BackgroundHeight / 2, 0, 0);
         bottomPipe.transform.position = new Vector3(BackgroundHeight / 2, 0, 0);
         int randomHeight = (int)Random.Range(1, BackgroundHeight / 2);
         if (randomTopOrBootom == 0)
         {
-            topPipe.transform.localScale = new Vector3(1, randomHeight, 1);
+            topPipeClone.transform.localScale = new Vector3(1, randomHeight, 1);
             int bottomPipeHeight = BackgroundHeight - sizeDoor - randomHeight;
             bottomPipe.transform.localScale = new Vector3(1, bottomPipeHeight, 1);
         }
@@ -163,11 +170,11 @@ public class GameManager : MonoBehaviour
         {
             bottomPipe.transform.localScale = new Vector3(1, randomHeight, 1);
             int topPipeHeight = BackgroundHeight - sizeDoor - randomHeight;
-            topPipe.transform.localScale = new Vector3(1, topPipeHeight, 1);
+            topPipeClone.transform.localScale = new Vector3(1, topPipeHeight, 1);
         }
 
 
-        return (topPipe, bottomPipe);
+        return (topPipeClone, bottomPipe);
     }
    
     private void MovePipe()
